@@ -8,9 +8,20 @@ require("dotenv").config();
 // Error handler middleware
 const errorHandler = (error, req, res, next) => {
   console.log(error);
-  // Other error handling logic...
-  res.status(500).json({ error: 'Internal Server Error' });
+
+  // Check if res is defined before using it
+  if (res && res.status) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  } else {
+    // Handle the case where res is not defined
+    console.error('Response object is undefined.');
+  }
 };
+// const errorHandler = (error, req, res, next) => {
+//   console.log(error);
+//   // Other error handling logic...
+//   res.status(500).json({ error: 'Internal Server Error' });
+// };
 
 // Register Route
 router.post("/register", async (req, res) => {
