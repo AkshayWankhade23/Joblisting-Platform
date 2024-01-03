@@ -104,6 +104,8 @@ const errorHandler = (error, req, res, next) => {
     // Handle the case where res is not defined
     console.error('Response object is undefined.');
   }
+  // Call next to pass control to the next middleware
+  next();
 };
 
 // Register Route
