@@ -94,19 +94,19 @@ const User = require("../models/user");
 require("dotenv").config();
 
 // Error handler middleware
-const errorHandler = (error, req, res, next) => {
-  console.error(error);
+// const errorHandler = (error, req, res, next) => {
+//   console.error(error);
 
-  // Check if res is defined before using it
-  if (res && res.status) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  } else {
-    // Handle the case where res is not defined
-    console.error('Response object is undefined.');
-  }
-  // Call next to pass control to the next middleware
-  next();
-};
+//   // Check if res is defined before using it
+//   if (res && res.status) {
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   } else {
+//     // Handle the case where res is not defined
+//     console.error('Response object is undefined.');
+//   }
+//   // Call next to pass control to the next middleware
+//   next();
+// };
 
 // Register Route
 router.post("/register", async (req, res) => {
@@ -137,7 +137,8 @@ router.post("/register", async (req, res) => {
     // Return Success Response
     res.json({ success: true, token, user: email, name: name });
   } catch (error) {
-    errorHandler(error, req, res, next);
+    // errorHandler(error, req, res, next);
+    console.log(error);
   }
 });
 
@@ -169,7 +170,8 @@ router.post("/login", async (req, res) => {
     // Return Success Response
     res.json({ success: true, token, name: user.name, user: email });
   } catch (error) {
-    errorHandler(error, req, res, next);
+    // errorHandler(error, req, res, next);
+    console.log(error);
   }
 });
 
