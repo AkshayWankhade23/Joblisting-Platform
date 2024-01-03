@@ -1,0 +1,89 @@
+.container {
+    width: 100vw;
+    height: 17vh;
+    border-radius: 0rem 0rem 3.875rem 3.4375rem;
+    background: #ed5353;
+  }
+  
+  .job {
+    color: #fff;
+    font-size: 1.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 144.023%;
+    margin: 2rem 0rem -2rem 4.94rem;
+    position: absolute;
+  }
+  
+  .loggedin {
+    color: #fff;
+    text-align: center;
+    font-family: DM Sans;
+    font-size: 1.4375rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 144.023%; /* 2.07031rem */
+    float: right;
+    margin-top: 3rem;
+    margin-right: 5rem;
+  }
+  
+  .loggedin button {
+    color: #fff;
+    text-align: center;
+    font-family: DM Sans;
+    font-size: 1.4375rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 144.023%; /* 2.07031rem */
+    background: #ed5353;
+    border: none;
+    cursor: pointer;
+    margin-right: 2rem;
+    border-radius: 0.4375rem;
+    border: 2px solid #fff;
+  }
+  .loggedin button:hover {
+    background: #fff;
+    color: #ff6b6b;
+  }
+  
+  .btnGroup{
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .btn {
+    width: 6.0625rem;
+    height: 2.575rem;
+    flex-shrink: 0;
+    border-radius: 0.4375rem;
+    border: 2px solid #fff;
+    background: #ed5353;
+    color: #fff;
+    text-align: center;
+    font-family: DM Sans;
+    font-size: 1.4375rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 144.023%; 
+    padding: 0.01rem 0.2rem;
+    margin-top: 2rem;
+    /* position: absolute; */
+    position: relative;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background: #fff;
+    color: #ff6b6b;
+  }
+  
+  .login {
+    text-decoration: none;
+    margin-left: 76vw;
+  }
+  
+  .register {
+    text-decoration: none;
+  }
+  
