@@ -1,91 +1,3 @@
-// const express = require("express");
-// const router = express.Router();
-// const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
-// const User = require("../models/user");
-// require("dotenv").config();
-
-// // Error handler middleware
-// const errorHandler = (error, req, res, next) => {
-//   console.log(error);
-
-//   // Check if res is defined before using it
-//   if (res && res.status) {
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   } else {
-//     // Handle the case where res is not defined
-//     console.error('Response object is undefined.');
-//   }
-// };
-// // const errorHandler = (error, req, res, next) => {
-// //   console.log(error);
-// //   // Other error handling logic...
-// //   res.status(500).json({ error: 'Internal Server Error' });
-// // };
-
-// // Register Route
-// router.post("/register", async (req, res) => {
-//   try {
-//     const { name, email, mobile, password } = req.body;
-//     // console.log(name, email, mobile, password);
-//     // Check if all required fields are provided
-//     if (!name || !email || !mobile || !password) {
-//       return res.status(400).json({ error: "All fields are required " });
-//     }
-
-//     // Check if email is already registerd
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       res.status(409).json({ error: "Email is already registerd" });
-//     }
-
-//     // Hash the password
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Create a new user
-//     const user = new User({ name, email, mobile, password: hashedPassword });
-//     await user.save();
-
-//     // Generate JWT Token
-//     const token = jwt.sign({ user: user.email }, process.env.JWT_SECRET_KEY);
-
-//     // Return Success Response
-//     res.json({ success: true, token, user: email, name: name });
-//   } catch (error) {
-//     errorHandler(res, error);
-//   }
-// });
-
-// // Login Route
-// router.post("/login", async(req, res) => {
-//     const {email, password} = req.body;
-//     // Check if email and password are provided
-//     if(!email || !password) {
-//         return res.status(400).json({ error: "Email and Password are required" });
-//     }
-
-//     // Find user by email
-//     const user = await User.findOne({email});
-//     if(!user) {
-//         return res.status(401).json({error: "User is not Registerd"});
-//     }
-
-//     // Compare password with stored hash
-//     const passwordMatch = await bcrypt.compare(password, user.password);
-//     if(!passwordMatch) {
-//         return res.status(401).json({error: "Invalid Password"});
-//     }
-
-//     // Generate JWT token
-//     const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET_KEY); /* The _id property is typically a unique identifier assigned by MongoDB when creating a new document in a collection. */
-
-//     // Return Success Response
-//     res.json({ success: true, token, name: user.name, user: email});
-// })
-
-// module.exports = router;
-
-
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
@@ -94,34 +6,26 @@ const User = require("../models/user");
 require("dotenv").config();
 
 // Error handler middleware
-// const errorHandler = (error, req, res, next) => {
-//   console.error(error);
-
-//   // Check if res is defined before using it
-//   if (res && res.status) {
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   } else {
-//     // Handle the case where res is not defined
-//     console.error('Response object is undefined.');
-//   }
-//   // Call next to pass control to the next middleware
-//   next();
-// };
+// Error handler middleware
+const errorHandler = (res, error) => {
+  console.error(error);
+  res.status(500).json({ error: "Internal Server Error" });
+};
 
 // Register Route
 router.post("/register", async (req, res) => {
   try {
     const { name, email, mobile, password } = req.body;
-
+    // console.log(name, email, mobile, password);
     // Check if all required fields are provided
     if (!name || !email || !mobile || !password) {
       return res.status(400).json({ error: "All fields are required " });
     }
 
-    // Check if email is already registered
+    // Check if email is already registerd
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ error: "Email is already registered" });
+      res.status(409).json({ error: "Email is already registerd" });
     }
 
     // Hash the password
@@ -137,8 +41,7 @@ router.post("/register", async (req, res) => {
     // Return Success Response
     res.json({ success: true, token, user: email, name: name });
   } catch (error) {
-    // errorHandler(error, req, res, next);
-    console.log(error);
+    errorHandler(res, error);
   }
 });
 
@@ -146,7 +49,6 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
     // Check if email and password are provided
     if (!email || !password) {
       return res.status(400).json({ error: "Email and Password are required" });
@@ -155,7 +57,7 @@ router.post("/login", async (req, res) => {
     // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "User is not registered" });
+      return res.status(401).json({ error: "User is not Registerd" });
     }
 
     // Compare password with stored hash
@@ -165,13 +67,15 @@ router.post("/login", async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET_KEY
+    ); /* The _id property is typically a unique identifier assigned by MongoDB when creating a new document in a collection. */
 
     // Return Success Response
     res.json({ success: true, token, name: user.name, user: email });
   } catch (error) {
-    // errorHandler(error, req, res, next);
-    console.log(error);
+    errorHandler(res, error);
   }
 });
 
