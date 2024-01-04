@@ -1,6 +1,7 @@
 import styles from "./Style.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { server } from "../../App";
 export const Details = ( {isLoggedIn }) => {
   const navigate = useNavigate();
   const [data, setData] = useState(undefined);
@@ -10,7 +11,7 @@ export const Details = ( {isLoggedIn }) => {
   useEffect(() => {
     const options = { method: "GET" };
 
-    fetch(`http://localhost:4000/api/job/job-posts/${id}`, options)
+    fetch(`${server}/api/job/job-posts/${id}`, options)
       .then((response) => response.json())
       .then((response) => setData({ ...response.jobPost }))
       .catch((err) => console.error(err));

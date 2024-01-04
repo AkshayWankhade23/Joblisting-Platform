@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./Style.module.css";
 import { useNavigate, useLocation } from "react-router";
 import {toast} from "react-hot-toast";
+import { server } from "../../App";
 
 export const JobForm = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ export const JobForm = () => {
       if (id) {
         setId(id);
         const options = { method: "GET" };
-        fetch(`http://localhost:4000/api/job/job-posts/${id}`, options)
+        fetch(`${server}/api/job/job-posts/${id}`, options)
           .then((response) => response.json())
           .then((response) => setFormData({ ...response.jobPost }))
           .catch((err) => console.error(err));
@@ -80,7 +81,7 @@ export const JobForm = () => {
     // console.log("token", token);
     // Send the POST request
     try {
-      const response = await fetch("http://localhost:4000/api/job/job-posts", {
+      const response = await fetch(`${server}/api/job/job-posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +136,7 @@ export const JobForm = () => {
     // Send the POST request
     try {
       const response = await fetch(
-        `http://localhost:4000/api/job/job-posts/${id}`,
+        `${server}/api/job/job-posts/${id}`,
         {
           method: "PUT",
           headers: {

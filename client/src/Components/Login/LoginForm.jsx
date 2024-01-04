@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./Style.module.css";
 import { useNavigate } from "react-router";
 import {toast} from "react-hot-toast";
+import { server } from "../../App";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const LoginForm = () => {
     event.preventDefault();
     if (data.email && data.password) {
       try {
-        const response = await fetch("http://localhost:4000/api/auth/login", {
+        const response = await fetch(`${server}/api/auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

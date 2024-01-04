@@ -2,6 +2,7 @@ import styles from "./Style.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import searchLogo from "../../assets/Vector.jpg";
+import { server } from "../../App";
 
 export const Listing = ({ isLoggedIn }) => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export const Listing = ({ isLoggedIn }) => {
         const skillQuery = skills.join(',');
   
         const options = { method: "GET" };
-        let apiUrl = `http://localhost:4000/api/job/job-posts?skillsRequired=${encodeURIComponent(skillQuery)}`;
+        let apiUrl = `${server}/api/job/job-posts?skillsRequired=${encodeURIComponent(skillQuery)}`;
   
         const response = await fetch(apiUrl, options);
         const data = await response.json();

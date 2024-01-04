@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Style.module.css";
 import {toast} from "react-hot-toast";
+import { server } from "../../App";
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export const RegisterForm = () => {
 
     // Send the POST Request
     try {
-      const response = await fetch("http://localhost:4000/api/auth/register", {
+      const response = await fetch(`${server}/api/auth/register`, {
         method: "POST",
         headers: {
           "content-Type": "application/json",
