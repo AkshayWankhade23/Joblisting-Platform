@@ -43,7 +43,7 @@ export const RegisterForm = () => {
       // console.log(responseData);
       window.localStorage.setItem("user", responseData.user.email);
       window.localStorage.setItem("name", responseData.user.name);
-      window.localStorage.setItem("token", responseData.user.token);
+      window.localStorage.setItem("token", responseData.token);
       toast.success("Registration successful!");
       navigate("/");
     } catch (error) {
