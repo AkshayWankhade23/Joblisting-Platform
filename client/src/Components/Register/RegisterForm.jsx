@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Style.module.css";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { server } from "../../App";
 
 export const RegisterForm = () => {
@@ -19,7 +19,6 @@ export const RegisterForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!data.name || !data.mobile || !data.email || !data.password) {
-      // alert("Please fill in all fields.");
       toast.error("Please fill in all fields.");
       return;
     }
@@ -35,19 +34,21 @@ export const RegisterForm = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        toast.error(errorData.error);
+        return;
       }
 
       const responseData = await response.json();
       // console.log(responseData);
-      window.localStorage.setItem("user", responseData.user);
-      window.localStorage.setItem("name", responseData.name);
-      window.localStorage.setItem("token", responseData.token);
+      window.localStorage.setItem("user", responseData.user.email);
+      window.localStorage.setItem("name", responseData.user.name);
+      window.localStorage.setItem("token", responseData.user.token);
       toast.success("Registration successful!");
-      navigate("/listing");
+      navigate("/");
     } catch (error) {
       // alert("There was a problem with the request, please try again");
-      toast.error("There was a problem with the request, please try again")
+      toast.error("There was a problem with the request, please try again");
     }
   };
 
@@ -92,7 +93,9 @@ export const RegisterForm = () => {
       </button>
       <p className={styles.footer}>
         Already have an account?
-        <span onClick={() => navigate("/login")} className={styles.underline}>Sign in</span>
+        <span onClick={() => navigate("/login")} className={styles.underline}>
+          Sign in
+        </span>
       </p>
     </div>
   );

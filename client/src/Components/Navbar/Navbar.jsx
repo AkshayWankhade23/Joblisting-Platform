@@ -2,29 +2,31 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Style.module.css";
 
-export const Navbar = ({onLogout}) => {
+export const Navbar = ({ onLogout }) => {
   const navigate = useNavigate();
   const storedUsername = localStorage.getItem("name");
   const [username, setUsername] = useState(storedUsername || "");
-
   const [isLoggedIn, setIsLoggedIn] = useState(
-    !!window.localStorage.getItem("user"),
+    !!localStorage.getItem("user")
   );
 
   const handleLogout = () => {
-    window.localStorage.removeItem("user");
-    window.localStorage.removeItem("name");
-    window.localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("name");
+    localStorage.removeItem("token");
     setIsLoggedIn(false); // Update the login status
     if (onLogout) {
       onLogout(); // Trigger callback to handle logout in the parent component
     }
   };
 
+  const handleNavigateHome = () => {
+    navigate("/");
+  };
 
   return (
     <div className={styles.container}>
-      <div className={styles.job}> Jobfinder </div>
+      <div className={styles.job} onClick={handleNavigateHome}> Jobfinder </div>
       <div>
         {isLoggedIn ? (
           <div className={styles.loggedin}>

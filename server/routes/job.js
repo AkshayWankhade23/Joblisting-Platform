@@ -1,12 +1,19 @@
 const express = require("express");
 const JobPost = require("../models/job");
 const requireAuth = require("../middlewares/requireAuth");
-const job = require("../models/job");
 
 const router = express.Router();
 
+// Error Handling middleware
+const errorHandler = (res, error) => {
+    console.error(error);
+    if (!res.headersSent) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
 // Create Job Post Api
-router.post('/job-posts', async(req, res) => {
+router.post('/job-posts', requireAuth, async(req, res) => {
     const {
         companyName,
         logoURL,
@@ -48,13 +55,12 @@ router.post('/job-posts', async(req, res) => {
 
         return res.json({ message: 'Job Post Created Successfully!', name: recruiterName });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        errorHandler(res, error);
     }
 });
 
 // Edit Job Post API
-router.put("/job-posts/:id", async(req, res) => {
+router.put("/job-posts/:id", requireAuth, async(req, res) => {
     const jobId = req.params.id;
 
     const {
@@ -101,8 +107,7 @@ router.put("/job-posts/:id", async(req, res) => {
         await jobPost.save();
         return res.json({ message: 'Job Post Updated Successfully!' });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        errorHandler(res, error);
     }
 })
 
@@ -123,8 +128,7 @@ router.get("/job-posts", async(req, res) => {
         const jobPosts = await JobPost.find(query).sort({createdAt: -1});
         return res.json({jobPosts})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        errorHandler(res, error);
     }
 })
 
@@ -141,8 +145,7 @@ router.get("/job-posts/:id", async(req, res) => {
 
         return res.json({jobPost});
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        errorHandler(res, error);
     }
 })
 

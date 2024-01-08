@@ -21,7 +21,6 @@ export const JobForm = () => {
     about: "",
     skillsRequired: "",
   });
-  // console.log(formData);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
@@ -33,7 +32,6 @@ export const JobForm = () => {
   useEffect(() => {
     if (state && state.id) {
       const { id, edit } = state;
-      // console.log(edit);
       if (edit) {
         setEdit(edit);
       }
@@ -64,7 +62,6 @@ export const JobForm = () => {
       !formData.about ||
       !formData.skillsRequired
     ) {
-      // alert("Please fill in all fields.");
       toast.error("Please fill in all fields.");
       return;
     }
@@ -73,12 +70,10 @@ export const JobForm = () => {
     const token = window.localStorage.getItem("token");
     const recruiterName = window.localStorage.getItem("name");
     if (!token) {
-      // alert("Login to create a job");
       toast.error("Login to create a job");
       return;
     }
     const data = { ...formData, name: recruiterName };
-    // console.log("token", token);
     // Send the POST request
     try {
       const response = await fetch(`${server}/api/job/job-posts`, {
@@ -91,16 +86,16 @@ export const JobForm = () => {
       });
 
       if (!response.ok) {
-        // alert("An error ocurred, please try again");
-        toast.error("An error ocurred, please try again");
+        const errorData = await response.json();
+        toast.error(errorData.message || "An error occurred, please try again");
+        return;
       }
 
       const responseData = await response.json();
-      // console.log(responseData);
-      // alert("Job created successfully");
       toast.success("Job created successfully");
-      navigate("/listing");
+      navigate("/");
     } catch (error) {
+      toast.error("An unexpected error occurred, please try again");
       console.error("There was a problem with the request:", error);
     }
   };
@@ -119,7 +114,6 @@ export const JobForm = () => {
       !formData.about ||
       !formData.skillsRequired
     ) {
-      // alert("Please fill in all fields.");
       toast.error("Please fill in all fields.");
       return;
     }
@@ -128,7 +122,6 @@ export const JobForm = () => {
     const token = window.localStorage.getItem("token");
     const recruiterName = window.localStorage.getItem("name");
     if (!token) {
-      // alert("Login to create a job");
       toast.error("Login to create a job");
       return;
     }
@@ -148,17 +141,17 @@ export const JobForm = () => {
       );
 
       if (!response.ok) {
-        // alert("An error ocurred, please try again");
-        toast.error("An error ocurred, please try again");
+        const errorData = await response.json();
+        toast.error(errorData.message || "An error occurred, please try again");
+        return;
       }
 
       const responseData = await response.json();
-      // console.log(responseData);
-      // alert("Job edited successfully");
       toast.success("Job edited successfully");
-      navigate("/listing");
+      navigate("/");
     } catch (error) {
       console.error("There was a problem with the request:", error);
+      toast.error("An unexpected error occurred, please try again");
     }
   };
 
@@ -250,6 +243,7 @@ export const JobForm = () => {
             value={formData.remote}
             onChange={handleChange}
           >
+            <option value="">Remote/Office</option>
             <option value="Remote">Remote</option>
             <option value="Office">Office</option>
           </select>
@@ -309,7 +303,7 @@ export const JobForm = () => {
           />
         </div>
       </div>
-      <button onClick={() => navigate("/listing")} className={styles.cancel}>
+      <button onClick={() => navigate("/")} className={styles.cancel}>
         Cancel
       </button>
       {edit ? (

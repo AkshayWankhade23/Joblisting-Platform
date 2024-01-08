@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { Register } from "./pages/Register";
@@ -8,7 +8,7 @@ import { AddJob } from "./pages/JobForm";
 import { Detail } from "./pages/Detail";
 import { Toaster } from "react-hot-toast";
 
-export const server = "https://joblisting-backend-035r.onrender.com";
+export const server = "http://localhost:4000";
 
 function App() {
   
@@ -20,7 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/addJob" element={<AddJob />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/listing" element={<JobListing />} />
+        {/* <Route path="/listing" element={<JobListing />} /> */}
         <Route path="/" element={<JobListing />} />
       </Routes>
     </>
