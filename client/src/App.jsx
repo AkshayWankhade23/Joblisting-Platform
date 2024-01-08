@@ -8,7 +8,7 @@ import { AddJob } from "./pages/JobForm";
 import { Detail } from "./pages/Detail";
 import { Toaster } from "react-hot-toast";
 
-export const server = "https://joblisting-backend-z506.onrender.com";
+export const server = "https://joblisting-server.onrender.com";
 
 function App() {
   
